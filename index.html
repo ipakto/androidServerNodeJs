@@ -1,0 +1,192 @@
+<!-- http://tablestyler.com/# -->
+<html>
+<head><title>Accelerometer reader</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<style type="text/css">
+.datagrid table { 
+	border-collapse: collapse; text-align: left; width: 100%; 
+} 
+.datagrid {
+	font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699;
+	-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;
+	margin: 0 auto; width:80%;
+
+}.datagrid table td, .datagrid table th { 
+	padding: 3px 10px; 
+}
+.datagrid table thead th {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+	background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; 
+} 
+.datagrid table thead th:first-child { 
+	border: none; 
+}
+.datagrid table tbody td { 
+	color: #00557F; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; 
+}
+.datagrid table tbody .alt td { 
+	background: #E1EEf4; color: #00557F; 
+}
+.datagrid table tbody td:first-child { 
+	border-left: none;
+}
+.datagrid table tbody tr:last-child td { 
+	border-bottom: none; 
+}
+.datagrid table tfoot td div { 
+	border-top: 1px solid #006699;background: #E1EEf4;
+} 
+.datagrid table tfoot td { 
+	padding: 0; font-size: 12px 
+}
+ .datagrid table tfoot td div{ 
+	padding: 2px;
+}
+.datagrid table tfoot td ul {
+ margin: 0; padding:0; list-style: none; text-align: right; 
+}
+.datagrid table tfoot  li { 
+	display: inline; 
+}
+.datagrid table tfoot li a { 
+	text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px;
+	 -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+	 background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+	 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; 
+}
+.datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { 
+	text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;
+}
+
+div.dhtmlx_window_active, div.dhx_modal_cover_dv { 
+	position: fixed !important; 
+}
+td,th {
+    text-align:center; 
+    vertical-align:middle;
+}
+h1,h2,h3,h4,h5{
+    text-align:center;
+    margin-top:5;
+    margin-bottom:5;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    color:#00547D;
+}
+body{
+    background-color:#E1EEf4;
+}
+
+#new{
+  font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    text-align:center;
+    margin-left:20%;
+    margin-top:20px;
+    float:left;
+}
+
+.btn {
+  background: #3498db;
+    margin-top:20px;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  float:right;
+  margin-right:10%;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+ 
+<h1>Accelerometer reader</h1>
+<h3>Francisco Ruiz Romero</h3>
+<h4>Mobile networks and services</h4>
+<h5>Laboratory: Second activity</h5>
+  <div class="datagrid">
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>X</th>
+          <th>Y</th>
+          <th>Z</th>
+        </tr>
+      </thead>
+
+      <tbody id="tbdy">
+        <tr>
+          <td>This column is for time of the values</td>
+          <td>This column is for X values</td>
+          <td>This column is for Y values</td>
+          <td>This column is for Z values</td>
+        </tr>
+</tbody>
+
+</table>
+</div>
+<div id="new"></div>
+  <button class="btn" onclick="clean()">Clear values</button>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+  var socket = io.connect("https://androidjs3-ipakto.c9users.io/");
+
+  socket.on("update",function(data){
+      print(data);
+  })
+  socket.on("newClient",function(data){
+     var div=document.getElementById("new");
+     div.innerHTML="Now "+data+" is connected.";
+  })
+        
+  var alt=true;
+  function print(data) {
+    var body=document.getElementsByTagName("body")[0];
+    var tbl = document.getElementById('tbdy');
+    var tr = document.createElement('tr');
+    if(alt){
+      tr.className+="alt";
+    }
+      tr.appendChild(createTd(data.time))
+      tr.appendChild(createTd(data.x))
+      tr.appendChild(createTd(data.y))
+      tr.appendChild(createTd(data.z))
+    
+    tbl.appendChild(tr);
+    body.scrollTop=body.scrollHeight;
+    alt=!alt;
+  }
+  function createTd(text){
+        var td = document.createElement('td');
+          td.innerHTML=text;
+          return td;
+  }
+  function clean(){
+    $("tbody tr").remove();
+  }
+</script>
+</body>
+</html>
